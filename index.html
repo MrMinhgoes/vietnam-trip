@@ -74,6 +74,15 @@ ul.items{list-style:none;margin:0;padding:0;background:var(--card);border:1px so
 .toast span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .toast button{appearance:none;border:0;background:transparent;color:var(--lantern);font:inherit;font-weight:700;cursor:pointer}
 footer{color:var(--muted);font-size:13px}
+.apill{font-size:11px;font-weight:600;padding:2px 7px;border-radius:999px;background:color-mix(in srgb,var(--danger) 14%,transparent);color:var(--danger);white-space:nowrap;border:1px solid transparent}
+.apill.maybe{background:transparent;border-color:color-mix(in srgb,var(--danger) 55%,transparent)}
+.apill.unk{background:transparent;border-color:var(--line);color:var(--muted)}
+details.acard{background:var(--card);border:1px solid color-mix(in srgb,var(--danger) 40%,var(--line));border-radius:12px;padding:12px 14px}
+details.acard summary{cursor:pointer;font-weight:600;color:var(--danger)}
+details.acard .vnt{margin:10px 0 6px;font-size:16px;line-height:1.5;font-weight:500}
+details.acard .ent,details.acard .tips{margin:0 0 8px;color:var(--muted);font-size:13.5px}
+details.acard .tips{padding-left:18px}
+.copy{appearance:none;font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
 @media (prefers-reduced-motion:no-preference){.tick,.tab,.f{transition:background .15s,border-color .15s,color .15s}}
 </style>
 <div class="wrap" id="root"></div>
@@ -87,6 +96,10 @@ footer{color:var(--muted);font-size:13px}
   try{var su=JSON.parse(sessionStorage.getItem(SS)||'null');if(su){ui.tab=su.tab||ui.tab;ui.filter=su.filter||'all';ui.q=su.q||'';ui.scroll=su.scroll||0;}}catch(e){}
   var mode='pending', art=null, timer=null, undo=null, undoTimer=null, saveState='pending';
   var root=document.getElementById('root');
+  var AL={"hn-eat-1": "?egg", "hn-eat-3": "?egg ?sf", "hn-eat-4": "egg", "hn-eat-5": "egg sf", "hn-eat-6": "nut sf", "hn-eat-7": "?egg ?sf", "hn-eat-8": "egg", "hn-eat-10": "sf ?egg", "hn-eat-11": "sf", "hn-eat-12": "sf", "hn-eat-13": "egg ?sf", "hn-eat-14": "sf ?egg", "hn-eat-16": "?nut", "hn-eat-17": "?egg", "hn-eat-18": "nut", "hn-eat-21": "?egg", "hn-eat-22": "?sf", "hn-eat-23": "nut ?ses", "hn-eat-24": "sf", "hn-eat-25": "sf ?egg", "hn-eat-26": "?nut ?ses", "hn-eat-27": "?egg ?nut", "hn-eat-33": "?ses", "hn-eat-34": "?ses", "hn-eat-35": "?nut", "hn-eat-38": "?nut ?ses", "hn-eat-39": "ses", "hn-eat-40": "?egg ?sf", "hn-eat-41": "?egg ?nut ?sf", "hn-eat-42": "?egg", "hn-eat-43": "egg sf", "hn-eat-44": "nut", "hn-eat-46": "egg", "hn-eat-47": "egg", "hl-eat-1": "sf", "hl-eat-2": "sf ?egg", "hl-eat-3": "sf", "hl-eat-4": "?sf", "hl-eat-5": "?sf", "hl-eat-6": "sf", "hl-eat-7": "sf", "hl-eat-8": "sf", "hl-eat-9": "sf nut", "hl-eat-10": "sf", "hl-eat-11": "sf ?nut", "hl-eat-12": "sf", "hl-eat-13": "sf", "hl-eat-14": "sf", "hl-eat-15": "sf nut", "hl-eat-16": "sf ?nut", "hl-eat-17": "sf nut", "hl-eat-18": "sf", "hl-eat-19": "sf", "hl-eat-20": "sf", "hl-eat-21": "sf", "hl-eat-24": "?egg", "hl-eat-25": "sf", "hl-eat-26": "sf", "hl-eat-27": "sf", "hl-eat-28": "sf", "hl-eat-29": "sf", "hl-eat-30": "sf", "hl-eat-31": "nut ?ses ?sf", "hl-eat-32": "?sf", "hl-eat-33": "sf", "hl-eat-34": "sf", "hl-eat-35": "sf", "hl-eat-36": "sf egg", "hl-eat-37": "sf ?egg", "hl-eat-38": "sf egg", "hl-eat-39": "sf ?egg", "hl-eat-42": "?sf", "hl-eat-43": "sf", "hl-eat-44": "sf", "hl-eat-50": "sf", "pq-eat-1": "nut", "pq-eat-2": "sf ?egg", "pq-eat-3": "sf", "pq-eat-4": "sf", "pq-eat-5": "sf nut", "pq-eat-7": "sf ?nut", "pq-eat-8": "sf nut", "pq-eat-9": "sf", "pq-eat-10": "sf", "pq-eat-11": "sf", "pq-eat-14": "sf", "pq-eat-15": "sf", "pq-eat-16": "sf", "pq-eat-17": "sf nut", "pq-eat-20": "sf", "pq-eat-21": "sf", "pq-eat-22": "sf", "pq-eat-23": "?sf", "pq-eat-24": "?sf", "pq-eat-26": "egg", "pq-eat-27": "sf ?egg", "pq-eat-28": "sf ?egg", "pq-eat-29": "sf", "pq-eat-30": "egg ?sf", "pq-eat-31": "nut", "pq-eat-32": "sf nut", "pq-eat-34": "sf egg", "pq-eat-35": "egg", "pq-eat-36": "egg ?sf", "pq-eat-37": "?egg ?nut", "pq-eat-38": "egg", "pq-eat-39": "nut ?ses", "pq-eat-40": "?nut ?ses", "pq-eat-50": "?egg ?sf"}, ALN={egg:'Egg',nut:'Nuts',ses:'Sesame',sf:'Shellfish'};
+  var CARD_VN='Xin chào! Tôi bị dị ứng nặng với: TRỨNG, CÁC LOẠI HẠT (kể cả lạc / đậu phộng), VỪNG (MÈ) và HẢI SẢN CÓ VỎ (tôm, cua, ghẹ, sò, ốc, hàu, mực, bạch tuộc). Xin đừng cho những thứ này vào món của tôi, kể cả dầu, nước chấm, mắm tôm và đồ rắc lên trên. Nếu không chắc, xin hãy nói cho tôi biết. Cảm ơn rất nhiều!';
+  function isFood(l){return l.what==='Food';}
+  function tags(it){var v=AL[it.id];return v?v.split(' '):[];}
 
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function list(){for(var i=0;i<state.lists.length;i++)if(state.lists[i].key===ui.tab)return state.lists[i];return state.lists[0];}
@@ -109,8 +122,8 @@ footer{color:var(--muted);font-size:13px}
     h+='<section class="panel"><div class="panel-head"><h2>'+esc(l.place)+' · '+esc(l.what)+'</h2><p>'+esc(l.desc)+'</p></div>'+
       '<form class="add" id="add-form" autocomplete="off"><input id="add-name" placeholder="Add a '+(l.what==='Food'?'dish or place to eat':'place or activity')+'" aria-label="Name"><input id="add-note" placeholder="Note (optional)" aria-label="Note"><button class="btn" type="submit">Add</button></form>'+
       '<div class="tools"><input id="search" type="search" placeholder="Search this list" aria-label="Search" value="'+esc(ui.q)+'"><div class="filters">'+
-      [['all','All'],['todo','To do'],['done','Done'],['plan','In your plan']].map(function(f){return '<button class="f" data-filter="'+f[0]+'" aria-pressed="'+(ui.filter===f[0])+'">'+f[1]+'</button>';}).join('')+
-      '</div></div><ul class="items" id="items"></ul></section>';
+      [['all','All'],['todo','To do'],['done','Done'],['plan','In your plan']].concat(isFood(l)?[['safe','Allergy-safe']]:[]).map(function(f){return '<button class="f" data-filter="'+f[0]+'" aria-pressed="'+(ui.filter===f[0])+'">'+f[1]+'</button>';}).join('')+
+      '</div></div>'+(isFood(l)?'<details class="acard" id="acard"><summary>Allergy card: egg, nuts, sesame, shellfish</summary><p class="vnt" id="card-vn">'+esc(CARD_VN)+'</p><p class="ent">Show this to staff. It says: I have a severe allergy to egg, all nuts including peanuts, sesame and shellfish (shrimp, crab, clams, snails, oysters, squid, octopus). Please keep them out of my food, including oils, sauces, shrimp paste and toppings. If you are not sure, please tell me.</p><ul class="tips"><li>Red tags mean the dish usually has it. Outlined tags mean it often or sometimes does, so ask.</li><li>Peanuts get sprinkled on a lot of dishes, and grills and woks are shared with seafood, so cross-contact is common.</li><li>Fish sauce is made from fish, not shellfish, but shrimp paste (mắm tôm, mắm ruốc) is shellfish.</li><li>Sá sùng (peanut worm) has no peanut in it, but it’s cooked alongside seafood.</li></ul><button type="button" class="copy" data-copy>Copy Vietnamese text</button></details>':'')+'<ul class="items" id="items"></ul></section>';
     h+='<footer>Tick things off, remove what doesn’t appeal, add your own. '+(mode==='local'?'Changes are kept in this browser.':'Changes save automatically for everyone who opens this page.')+' Starred “In your plan” items come from the itinerary sheet.</footer>';
     root.innerHTML=h;
     renderItems();
@@ -121,6 +134,7 @@ footer{color:var(--muted);font-size:13px}
       if(ui.filter==='todo'&&it.done)return false;
       if(ui.filter==='done'&&!it.done)return false;
       if(ui.filter==='plan'&&!it.plan)return false;
+      if(ui.filter==='safe'&&isFood(l)&&(tags(it).length||it.mine))return false;
       if(q&&(it.n+' '+(it.vn||'')+' '+(it.note||'')).toLowerCase().indexOf(q)<0)return false;
       return true;});
     if(!rows.length){el.innerHTML='<li class="empty">'+(l.items.length?'Nothing matches. Try another filter.':'This list is empty. Add your first one above.')+'</li>';return;}
@@ -128,7 +142,7 @@ footer{color:var(--muted);font-size:13px}
       return '<li class="item'+(it.done?' done':'')+'" data-id="'+esc(it.id)+'">'+
         '<button class="tick" role="checkbox" aria-checked="'+!!it.done+'" data-act="toggle" aria-label="Done: '+esc(it.n)+'"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></button>'+
         '<div><div class="line"><span class="name">'+esc(it.n)+'</span>'+(it.vn&&it.vn!==it.n?'<span class="vn">'+esc(it.vn)+'</span>':'')+
-        (it.plan?'<span class="pill">★ In your plan</span>':'')+(it.mine?'<span class="pill mine">Added</span>':'')+'</div>'+
+        (it.plan?'<span class="pill">★ In your plan</span>':'')+(it.mine?'<span class="pill mine">Added</span>':'')+(isFood(l)?tags(it).map(function(t){var m=t.charAt(0)==='?',k=m?t.slice(1):t;return '<span class="apill'+(m?' maybe':'')+'">'+(m?'Maybe ':'')+ALN[k].toLowerCase().replace(/^./,function(c){return m?c:c.toUpperCase();})+'</span>';}).join('')+(it.mine?'<span class="apill unk">Allergens not checked</span>':''):'')+'</div>'+
         (it.note?'<p class="note">'+esc(it.note)+'</p>':'')+'</div>'+
         '<button class="rm" data-act="remove" aria-label="Remove '+esc(it.n)+'">×</button></li>';}).join('');
   }
@@ -162,6 +176,10 @@ footer{color:var(--muted);font-size:13px}
   root.addEventListener('click',function(e){
     var t=e.target.closest('[data-tab]');
     if(t){ui.tab=t.getAttribute('data-tab');ui.q='';stashUI();render();return;}
+    var cp=e.target.closest('[data-copy]');
+    if(cp){var txt=CARD_VN;var ok=function(){cp.textContent='Copied';setTimeout(function(){cp.textContent='Copy Vietnamese text';},1800);};
+      var sel=function(){var r=document.createRange();r.selectNodeContents(document.getElementById('card-vn'));var s=window.getSelection();s.removeAllRanges();s.addRange(r);cp.textContent='Selected, copy it now';};
+      try{navigator.clipboard.writeText(txt).then(ok,sel);}catch(err){sel();}return;}
     var f=e.target.closest('[data-filter]');
     if(f){ui.filter=f.getAttribute('data-filter');stashUI();render();return;}
     var b=e.target.closest('[data-act]');if(!b)return;
